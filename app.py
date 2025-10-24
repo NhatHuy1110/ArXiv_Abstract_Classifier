@@ -1,4 +1,3 @@
-# app.py
 import streamlit as st
 import joblib, json, numpy as np
 from pathlib import Path
@@ -9,7 +8,6 @@ ART = Path("artifacts")
 LABELS = json.load(open(ART/"label_names.json"))
 EMB_MODEL_NAME = (ART/"emb_model_name.txt").read_text().strip()
 
-# cache để không load lại
 @st.cache_resource(show_spinner=False)
 def load_models():
     emb = SentenceTransformer(EMB_MODEL_NAME)
@@ -71,7 +69,6 @@ if run:
 
     # 2) Similar papers (cosine via NN index on train embeddings)
     st.write("### 🔗 Most similar training papers")
-    # dùng nn kneighbors để tìm index gần nhất; lấy metadata để hiển thị
     dists, idxs = nn.kneighbors(v, n_neighbors=max(topk, 3), return_distance=True)
     idxs = idxs[0].tolist()
     dists = dists[0].tolist()
