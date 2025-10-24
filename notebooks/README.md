@@ -1,0 +1,1 @@
+# Nếu notebooks bị lỗi thì các bạn có thể download về là chạy được hoặc truy cập [link](https://drive.google.com/drive/folders/1SaaMvslzy4iqihGqCFLL1ytMsZNV7PvA?usp=sharing) drive project này để lấy notebooks ạ. 
