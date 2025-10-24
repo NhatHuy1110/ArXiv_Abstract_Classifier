@@ -1,4 +1,3 @@
-# train.py
 import os
 import json
 import joblib
@@ -23,6 +22,7 @@ ARTIFACTS.mkdir(parents=True, exist_ok=True)
 # ------------------------------
 # 1) Load & filter data
 # ------------------------------
+
 def clean_text(s: str) -> str:
     s = s.replace("\n", " ")
     s = re.sub(r"[^\w\s]", " ", s)
@@ -36,7 +36,6 @@ def load_arxiv_subset(max_docs_per_class=600, seed=42):
 
     wanted = ["astro-ph", "cond-mat", "cs", "math", "physics"]
 
-    # Cột abstract có thể khác tên (vd. 'abs' hoặc 'text')
     abstract_field = None
     for cand in ["abstract", "abs", "text", "summary", "content"]:
         if cand in ds.column_names:
@@ -49,7 +48,6 @@ def load_arxiv_subset(max_docs_per_class=600, seed=42):
     per_class_cnt = {k: 0 for k in wanted}
     for r in ds:
         labs = r.get("categories", []) or []
-        # Kiểm tra categories có dạng list hay string
         if isinstance(labs, str):
             labs = [labs]
 
@@ -75,16 +73,15 @@ def load_arxiv_subset(max_docs_per_class=600, seed=42):
         if all(v >= max_docs_per_class for v in per_class_cnt.values()):
             break
 
-    # ✅ Kiểm tra kết quả
     if not rows:
-        raise ValueError("❌ Không lấy được mẫu nào! Kiểm tra giá trị trong cột 'categories' có trùng với wanted không.")
+        raise ValueError("Không lấy được mẫu nào! Kiểm tra giá trị trong cột 'categories' có trùng với wanted không.")
 
     df = pd.DataFrame(rows)
-    print("✅ Sample rows:")
+    print("Sample rows:")
     print(df.head())
 
     df["abstract_clean"] = df["abstract"].apply(clean_text)
-    print(f"✅ Loaded {len(df)} samples.")
+    print(f"Loaded {len(df)} samples.")
     return df
 
 # ------------------------------
@@ -105,7 +102,6 @@ def encode_texts(model, texts, batch_size=64, normalize=True):
 # 3) Train & export
 # ------------------------------
 def main():
-    print("Loading data ...")
     df = load_arxiv_subset(max_docs_per_class=600)  # tổng ~3k mẫu
     label_names = sorted(df["label"].unique())
     label2id = {lb: i for i, lb in enumerate(label_names)}
