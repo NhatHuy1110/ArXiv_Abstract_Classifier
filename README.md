@@ -24,6 +24,20 @@ data preprocessing → feature engineering → model training → explainability
 - Explain model predictions using SHAP values.
 - Provide a clean, interactive UI for inference and analysis.
 
+### 📈 Experimental Result
+
+The figure below shows comparative accuracies of multiple ML algorithms with different vectorization methods.
+
+![Model Comparison Results](result_img/result_ML_models.png)
+
+| Representation | Model | Accuracy |
+|----------------|--------|-----------|
+| Bag of Words | Naive Bayes | ~0.75 |
+| TF-IDF | KNN | ~0.8 |
+| **E5 Embeddings** | **LightGBM**, **Naive Bayes**, **GB** | **0.80+** |
+
+**LightGBM with E5 embeddings achieved the best overall performance.**
+
 ---
 
 ## 📚 Categories
@@ -101,4 +115,82 @@ The Streamlit app (`app.py`) provides:
   - Representative keywords per class (via TF-IDF)
   - Visualization of probability distribution
 
-### 🖼 UI Preview
+### 🖼️ User Interface Preview
+
+Below is the demo of the deployed web application.  
+Users can paste a scientific abstract, classify it, and visualize prediction probabilities and similar papers.
+
+### 🌐 Web Interface – Classification Panel
+![User Interface 1](result_img/user_interface.jpg)
+
+### 📊 Web Interface – Similar Papers & Keywords
+![User Interface 2](result_img/user_interface_2.jpg)
+
+---
+
+## 🧰 Tech Stack
+
+| Layer | Tools / Frameworks |
+|--------|--------------------|
+| **Language** | Python 3.10+ |
+| **Frontend** | Streamlit |
+| **ML Frameworks** | scikit-learn, LightGBM |
+| **Embeddings** | SentenceTransformers (E5) |
+| **Explainability** | SHAP |
+| **Visualization** | Matplotlib, Seaborn |
+| **Deployment** | Streamlit Cloud / Hugging Face Spaces |
+
+---
+
+---
+
+## 🧪 Local Setup & Run
+
+### 1️⃣ Clone the repository
+```bash
+git clone https://github.com/NhatHuy1110/ArXiv_Abstract_Classifier.git
+cd ArXiv_Abstract_Classifier
+```
+
+### 2️⃣ Create a virtual environment (recommended)
+```bash
+python -m venv venv
+source venv/bin/activate       # For macOS/Linux
+venv\Scripts\activate          # For Windows
+```
+
+### 3️⃣ Install dependencies
+Make sure you have pip updated first:
+```bash
+pip install --upgrade pip
+```
+Then install the project dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+### 4️⃣ (Optional) Train the model
+If you want to retrain the model using the ArXiv dataset:
+```bash
+python train.py
+```
+This will:
+- Download and preprocess the dataset.
+- Train LightGBM with E5 embeddings.
+- Save artifacts into the artifacts/ directory.
+
+### 5️⃣ Run the Streamlit web app
+Once artifacts exist (or are downloaded), start the web app locally:
+```bash
+streamlit run app.py
+```
+
+---
+
+## 🧑‍💻 Author
+Nguyễn Nhất Huy
+
+AI Researcher & Engineer
+
+📧 Email: huynhatnguyen1110@gmail.com
+
